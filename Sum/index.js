@@ -2,13 +2,44 @@ const express = require('express');
 
 const app = express();
 
-app.get('/sum',(req,res)=>{
-    const a = req.query.a;
-    const b = req.query.b;
-    const result = parseInt(a) + parseInt(b);
+function middleware(req,res,next){
+    const a = parseInt(req.query.a);
+    const b = parseInt(req.query.b);
+    const operation = req.path;
+    if(operation == '/add'){
+        next(a + b);
+    }
+    else if(operation == '/sub'){
+        next(a - b);
+    }
+    else if(operation == '/mul'){
+        next(a * b);
+    }
+    else if(operation == '/div'){
+        next(a / b);
+    }
+    else{
+        res.status(404).send("You hit an incorrect URL");
+    }
 
-    res.send(result.toString());
-})
+}
+app.use(middleware);
 
+app.get('/add',(req,res,val)=>{
+    res.status(200).send(val);
+});
+
+app.get('/sub',(req,res,val)=>{
+    res.status(200).send(val);
+});
+
+app.get('/mul',(req,res,val)=>{
+    res.status(200).send(val);
+});
+
+
+app.get('/div',(req,res,val)=>{
+    res.status(200).send(val);
+});
 
 app.listen(3000);
