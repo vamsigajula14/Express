@@ -6,6 +6,7 @@ function middleware(req,res,next){
     const a = parseInt(req.query.a);
     const b = parseInt(req.query.b);
     const operation = req.path;
+    alert(operation);
     if(operation == '/add'){
         next(a + b);
     }
@@ -43,3 +44,4 @@ app.get('/div',(req,res,val)=>{
 });
 
 app.listen(3000);
+
